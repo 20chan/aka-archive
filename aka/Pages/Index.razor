@@ -1,0 +1,27 @@
+﻿@page "/"
+
+@using aka.Data
+@inject AliasController controller
+
+<h1>aka</h1>
+
+<form>
+    <div class="form-group">
+        <label for="inputAlias">Alias</label>
+        <input type="text" class="form-control" id="inputAlias" @bind="@alias" placeholder="alias" />
+    </div>
+    <div class="form-group">
+        <label for="inputUrl">Url</label>
+        <input type="url" class="form-control" id="inputUrl" @bind="@url" placeholder="url" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" @onclick="@Add">Add</button>
+</form>
+
+@code {
+    private string alias, url;
+
+    private async Task Add() {
+        await controller.AddAlias(alias, url);
+    }
+}
