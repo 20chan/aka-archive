@@ -1,7 +1,7 @@
 ﻿@page "/"
 
-@using aka.Data
-@inject AliasController controller
+@using aka.Data;
+@inject AliasService service;
 
 <h1>aka</h1>
 
@@ -22,6 +22,7 @@
     private string alias, url;
 
     private async Task Add() {
-        await controller.AddAlias(alias, url);
+        var doc = new Data.UrlAlias(alias, url);
+        await service.AddAlias(doc);
     }
 }

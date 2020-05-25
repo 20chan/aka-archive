@@ -7,7 +7,7 @@ namespace aka.Data {
         private readonly IMongoCollection<UrlAlias> aliases;
 
         public UrlAliasDBContext() {
-            var client = new MongoClient("mongodb://localhost:27017");
+            var client = new MongoClient("mongodb://127.0.0.1:27017");
             db = client.GetDatabase("UrlAliasDB");
             aliases = db.GetCollection<UrlAlias>("UrlAliases");
         }
@@ -18,10 +18,8 @@ namespace aka.Data {
             return result?.Url;
         }
 
-        public async Task<UrlAlias> AddAlias(string alias, string url) {
-            var doc = new UrlAlias(alias, url);
-            await aliases.InsertOneAsync(doc);
-            return doc;
+        public async Task AddAlias(UrlAlias alias) {
+            await aliases.InsertOneAsync(alias);
         }
     }
 }

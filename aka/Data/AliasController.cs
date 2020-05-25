@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 namespace aka.Data {
     [Route("/")]
     public class AliasController : Controller {
-        private readonly UrlAliasDBContext db;
+        private readonly AliasService service;
 
-        public AliasController() {
-            db = new UrlAliasDBContext();
+        public AliasController(AliasService aliasService) {
+            service = aliasService;
         }
 
         [HttpGet("{alias}")]
         public async Task<IActionResult> RedirectToAlias(string alias) {
-            var url = await db.GetUrl(alias);
+            var url = await service.GetUrl(alias);
             if (url == null) {
                 return NotFound();
             }
@@ -20,9 +20,9 @@ namespace aka.Data {
         }
 
         [HttpPost("/api/alias")]
-        public async Task<IActionResult> AddAlias(string alias, string url) {
-            var doc = await db.AddAlias(alias, url);
-            return CreatedAtRoute(nameof(AddAlias), doc);
+        public async Task<IActionResult> AddAlias(UrlAlias alias) {
+            await service.AddAlias(alias);
+            return CreatedAtRoute(nameof(AddAlias), alias);
         }
     }
 }
