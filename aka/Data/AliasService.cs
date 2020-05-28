@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace aka.Data {
@@ -11,6 +12,10 @@ namespace aka.Data {
 
         public async Task<string> GetUrl(string alias) {
             return await db.GetUrl(alias);
+        }
+
+        public async Task<List<UrlAlias>> GetAllAliases() {
+            return await db.GetAllAliases();
         }
 
         public async Task AddAlias(UrlAlias alias) {

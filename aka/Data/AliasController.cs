@@ -20,9 +20,9 @@ namespace aka.Data {
         }
 
         [HttpPost("/api/alias")]
-        public async Task<IActionResult> AddAlias(UrlAlias alias) {
-            await service.AddAlias(alias);
-            return CreatedAtRoute(nameof(AddAlias), alias);
+        public async Task<IActionResult> AddAlias(UrlAlias urlAlias) {
+            await service.AddAlias(urlAlias);
+            return CreatedAtRoute(nameof(AddAlias), urlAlias);
         }
     }
 }

@@ -3,12 +3,11 @@
 @using aka.Data;
 @inject AliasService service;
 
-<h1>aka</h1>
-
+<h1>Add one</h1>
 <form>
     <div class="form-group">
         <label for="inputAlias">Alias</label>
-        <input type="text" class="form-control" id="inputAlias" @bind="@alias" placeholder="alias" />
+        <input type="text" class="form-control" id="inputAlias" @bind="@name" placeholder="alias" />
     </div>
     <div class="form-group">
         <label for="inputUrl">Url</label>
@@ -18,11 +17,38 @@
     <button type="submit" class="btn btn-primary" @onclick="@Add">Add</button>
 </form>
 
+<h1 style="margin-top: 2rem;">List</h1>
+@if (aliases == null) {
+    <p><em>Loading..</em></p>
+} else {
+    <div class="list-group">
+        @foreach (var alias in aliases) {
+            <a href="@alias.Url" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@alias.Alias</h5>
+                    <small>#@alias.Id</small>
+                </div>
+                <p class="mb-1">@alias.Url</p>
+            </a>
+        }
+    </div>
+}
+
 @code {
-    private string alias, url;
+    private string name, url;
+    private UrlAlias[] aliases;
+
+    protected override async Task OnInitializedAsync() {
+        await Fetch();
+    }
 
     private async Task Add() {
-        var doc = new Data.UrlAlias(alias, url);
+        var doc = new Data.UrlAlias(name, url);
         await service.AddAlias(doc);
+    }
+
+    private async Task Fetch() {
+        var list = await service.GetAllAliases();
+        aliases = list.ToArray();
     }
 }

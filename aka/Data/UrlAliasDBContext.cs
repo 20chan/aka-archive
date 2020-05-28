@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 
 namespace aka.Data {
@@ -16,6 +17,11 @@ namespace aka.Data {
             var filter = Builders<UrlAlias>.Filter.Eq("Alias", alias);
             var result = await aliases.Find(filter).FirstOrDefaultAsync();
             return result?.Url;
+        }
+
+        public async Task<List<UrlAlias>> GetAllAliases() {
+            var result = await aliases.FindAsync(_ => true);
+            return await result.ToListAsync();
         }
 
         public async Task AddAlias(UrlAlias alias) {
