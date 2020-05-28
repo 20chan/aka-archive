@@ -10,8 +10,8 @@ namespace aka.Data {
             db = new UrlAliasDBContext();
         }
 
-        public async Task<string> GetUrl(string alias) {
-            return await db.GetUrl(alias);
+        public async Task<UrlAlias> GetAlias(string name) {
+            return await db.GetAlias(name);
         }
 
         public async Task<List<UrlAlias>> GetAllAliases() {
@@ -20,6 +20,10 @@ namespace aka.Data {
 
         public async Task AddAlias(UrlAlias alias) {
             await db.AddAlias(alias);
+        }
+
+        public async Task IncCount(UrlAlias alias) {
+            await db.IncCount(alias);
         }
     }
 }

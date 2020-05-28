@@ -10,13 +10,15 @@ namespace aka.Data {
             service = aliasService;
         }
 
-        [HttpGet("{alias}")]
-        public async Task<IActionResult> RedirectToAlias(string alias) {
-            var url = await service.GetUrl(alias);
-            if (url == null) {
+        [HttpGet("{name}")]
+        public async Task<IActionResult> RedirectToAlias(string name) {
+            var alias = await service.GetAlias(name);
+            if (alias == null) {
                 return NotFound();
             }
-            return Redirect(url);
+
+            await service.IncCount(alias);
+            return Redirect(alias.Url);
         }
 
         [HttpPost("/api/alias")]

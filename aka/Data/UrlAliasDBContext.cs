@@ -13,10 +13,10 @@ namespace aka.Data {
             aliases = db.GetCollection<UrlAlias>("UrlAliases");
         }
 
-        public async Task<string> GetUrl(string alias) {
-            var filter = Builders<UrlAlias>.Filter.Eq("Alias", alias);
+        public async Task<UrlAlias> GetAlias(string name) {
+            var filter = Builders<UrlAlias>.Filter.Eq("Alias", name);
             var result = await aliases.Find(filter).FirstOrDefaultAsync();
-            return result?.Url;
+            return result;
         }
 
         public async Task<List<UrlAlias>> GetAllAliases() {
@@ -26,6 +26,12 @@ namespace aka.Data {
 
         public async Task AddAlias(UrlAlias alias) {
             await aliases.InsertOneAsync(alias);
+        }
+
+        public async Task IncCount(UrlAlias alias) {
+            var filter = Builders<UrlAlias>.Filter.Eq("_id", alias.Id);
+            var update = Builders<UrlAlias>.Update.Inc("Count", 1);
+            await aliases.UpdateOneAsync(filter, update);
         }
     }
 }

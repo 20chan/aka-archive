@@ -17,18 +17,19 @@
     <button type="submit" class="btn btn-primary" @onclick="@Add">Add</button>
 </form>
 
-<h1 style="margin-top: 2rem;">List</h1>
+<h1 style="margin-top: 2rem;">Aliases</h1>
 @if (aliases == null) {
     <p><em>Loading..</em></p>
 } else {
     <div class="list-group">
         @foreach (var alias in aliases) {
-            <a href="@alias.Url" class="list-group-item list-group-item-action">
+            <a href="@alias.Alias" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">@alias.Alias</h5>
                     <small>#@alias.Id</small>
                 </div>
                 <p class="mb-1">@alias.Url</p>
+                <small>Count: @alias.Count</small>
             </a>
         }
     </div>
